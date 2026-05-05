@@ -1,2 +1,14 @@
 # Call-Center-KPI-analysis
 End-to-end project on a 300-case dataset, covering Excel cleaning, SQL querying, Python automation, and Power BI dashboarding. Delivered insights across CSAT, FCR, and KPIs, revealing a strong negative link between handle time and customer satisfaction.
+This repository contains a complete, production-grade data analytics project built on a 300-case call center dataset. The project covers the full analytics pipeline — from raw dirty data through cleaning, SQL querying, Python automation, and interactive Power BI dashboarding — demonstrating practical competency across the core tools required for a MIS Analyst or Data Analyst role.
+Project Background
+The dataset simulates real operational data from a call center environment, containing agent performance records, customer satisfaction scores, first contact resolution flags, handle times, escalation statuses, and case outcomes across 12 months. The data contained intentional quality issues — missing values, inconsistent formatting, mislabelled columns, and duplicate records — mirroring the conditions a data analyst encounters in real business environments.
+What Was Done
+Data cleaning was performed in Microsoft Excel using PROPER() for name standardisation, IFERROR with mean imputation for missing handle times, neutral midpoint filling for blank CSAT scores, and YES/NO flag columns for missing dates that could not be safely imputed. A COUNTIF-based duplicate detection column was also applied across all 300 rows.
+Multi-dimensional analysis was built using COUNTIFS, AVERAGEIFS, SUMIFS, MINIFS, and MAXIFS across five analysis dimensions — FCR by team, CSAT by issue category, monthly KPI trends, agent scorecard with dynamic performance tags, and channel performance comparison.
+Twelve SQL queries were written in SQLite covering SELECT with ORDER BY, WHERE with AND conditions, GROUP BY with aggregate functions, HAVING for post-group filtering, INNER and LEFT JOIN concepts, subqueries, CTEs for layered monthly analysis, RANK() OVER PARTITION BY window functions, CASE WHEN categorisation, UPDATE for permanent data fixes, and CREATE VIEW for reusable reporting.
+Python analysis was automated using pandas groupby aggregations, seaborn visualisations, correlation matrix analysis confirming a negative relationship between handle time and CSAT, and openpyxl for multi-sheet Excel export.
+Power BI dashboards were built with 15+ DAX measures including CALCULATE, DIVIDE, RANKX, TOTALYTD, SWITCH, and ALL, with conditional formatting, interactive slicers, and a dual-axis monthly trend chart.
+Key Finding
+Extended calls consistently produced lower CSAT scores — confirmed independently across SQL, Python, and Power BI — identifying handle time efficiency as the primary driver of customer dissatisfaction.
+Tools: Microsoft Excel · SQLite · DB Browser · Python 3 · pandas · seaborn · matplotlib · Power BI Desktop · VS Code
