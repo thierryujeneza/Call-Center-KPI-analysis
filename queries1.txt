@@ -1,0 +1,144 @@
+-- QUERY 1: Full Case Log
+-- I started by pulling every case in the dataset, ordered from
+-- the most recent date so I could get a clear picture of what
+-- the data looked like before diving into any analysis.
+-- ------------------------------------------------------------
+SELECT
+    Case_ID,
+    Date_Clean,
+    Agent_Name_Clean,
+    Team,
+    Channel,
+    Issue_Category,
+    Handle_Time_Min,
+    CSAT_Score,
+    FCR_Flag
+FROM Call_center_cases
+ORDER BY Date_Clean DESC;
+
+
+-- ------------------------------------------------------------
+-- QUERY 2: Escalated Billing Cases with Low CSAT (≤ 2)
+-- This one was important — I wanted to isolate the worst
+-- customer experiences specifically around billing issues
+-- that also got escalated. These are the cases where
+-- everything went wrong at once.
+-- ------------------------------------------------------------
+SELECT
+    Case_ID,
+    Agent_Name_Clean,
+    Issue_Category,
+    CSAT_Score,
+    Escalated
+FROM Call_center_cases
+WHERE Escalated = 'Yes'
+  AND Issue_Category = 'Billing'
+  AND CSAT_Score <= 2
+ORDER BY CSAT_Score ASC;
+
+
+-- ------------------------------------------------------------
+-- QUERY 3: All Escalated Billing Cases
+-- A broader version of Query 2 — here I removed the CSAT
+-- filter to see every billing escalation regardless of score,
+-- giving a fuller view of how billing issues drove escalations.
+-- ------------------------------------------------------------
+SELECT
+    Agent_Name_Clean,
+    Issue_Category,
+    Escalated,
+    CSAT_Score
+FROM Call_center_cases
+WHERE Escalated = 'Yes'
+  AND Issue_Category = 'Billing';
+
+
+-- ------------------------------------------------------------
+-- QUERY 4: Team Performance Summary
+-- This became one of the most useful queries in the project.
+-- It rolls up each team's total cases, how many were resolved
+-- on first contact, average CSAT, and average handle time —
+-- all in one place for a clean side-by-side comparison.
+-- ------------------------------------------------------------
+SELECT
+    Team,
+    COUNT(*)                                            AS Total_Cases,
+    SUM(CASE WHEN FCR_Flag = 'Yes' THEN 1 ELSE 0 END)  AS FCR_Yes,
+    ROUND(AVG(CSAT_Score), 2)                           AS Avg_CSAT,
+    ROUND(AVG(Handle_Time_Min), 2)                      AS Avg_Handle_Time
+FROM Call_center_cases
+GROUP BY Team
+ORDER BY Avg_CSAT DESC;
+
+
+-- ------------------------------------------------------------
+-- QUERY 5: Teams with High Volume but Low FCR Rate
+-- I used HAVING here to filter for teams that had both a
+-- significant case load (over 80 cases) AND were still
+-- struggling to resolve calls on first contact (below 70%).
+-- These are the teams that need the most attention.
+-- ------------------------------------------------------------
+SELECT
+    Team,
+    COUNT(*)                                                        AS Total_Cases,
+    ROUND(
+        SUM(CASE WHEN FCR_Flag = 'Yes' THEN 1.0 ELSE 0 END)
+        / COUNT(*) * 100, 1
+    )                                                               AS FCR_Pct
+FROM Call_center_cases
+GROUP BY Team
+HAVING COUNT(*) > 80
+   AND SUM(CASE WHEN FCR_Flag = 'Yes' THEN 1.0 ELSE 0 END)
+       / COUNT(*) < 0.70
+ORDER BY FCR_Pct ASC;
+
+
+-- ------------------------------------------------------------
+-- QUERY 6: Monthly Trend — Cases, FCR, and CSAT (CTE)
+-- I used a CTE here to keep things readable. The inner query
+-- builds a monthly summary, and the outer query adds the FCR
+-- percentage on top of it. This gave me the trend view I
+-- needed to see how performance shifted across the year.
+-- ------------------------------------------------------------
+WITH Monthly_Summary AS (
+    SELECT
+        strftime('%Y-%m', Date_Clean)                               AS Month,
+        COUNT(*)                                                    AS Total_Cases,
+        SUM(CASE WHEN FCR_Flag = 'Yes' THEN 1 ELSE 0 END)          AS FCR_Yes,
+        ROUND(AVG(CSAT_Score), 2)                                   AS Avg_CSAT
+    FROM Call_center_cases
+    WHERE Date_Clean != 'MISSING'
+    GROUP BY strftime('%Y-%m', Date_Clean)
+)
+SELECT
+    Month,
+    Total_Cases,
+    FCR_Yes,
+    Avg_CSAT,
+    ROUND(FCR_Yes * 100.0 / Total_Cases, 1)                        AS FCR_Pct
+FROM Monthly_Summary
+ORDER BY Month ASC;
+
+
+-- ------------------------------------------------------------
+-- QUERY 7: Handle Time Bucketing per Case
+-- Rather than looking at raw minutes, I wanted to group calls
+-- into meaningful bands — Quick, Standard, Extended, and Long.
+-- This made it much easier to connect handle time categories
+-- to CSAT outcomes and confirm the core finding of the project.
+-- ------------------------------------------------------------
+SELECT
+    Case_ID,
+    Agent_Name_Clean,
+    Team,
+    Handle_Time_Min,
+    CASE
+        WHEN Handle_Time_Min <= 5  THEN 'Quick (under 5 min)'
+        WHEN Handle_Time_Min <= 10 THEN 'Standard (6-10 min)'
+        WHEN Handle_Time_Min <= 20 THEN 'Extended (11-20 min)'
+        ELSE                            'Long (over 20 min)'
+    END                                                             AS Handle_Time_Bucket,
+    CSAT_Score,
+    FCR_Flag
+FROM Call_center_cases
+ORDER BY Handle_Time_Min DESC;
