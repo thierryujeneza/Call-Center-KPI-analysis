@@ -734,7 +734,17 @@
             <div class="file-icon py">PY</div>
             <div>
               <div class="file-name">analysis.py</div>
-              <div class="file-desc">Python visualisations + correlation matrix</div>
+              <div class="file-desc">pandas groupby, seaborn visuals, correlation matrix, openpyxl export</div>
+            </div>
+          </div>
+          <span class="file-arrow">→</span>
+        </a>
+        <a class="file-link" href="https://github.com/thierryujeneza/Call-Center-KPI-analysis/blob/main/queries.txt" target="_blank">
+          <div class="file-link-left">
+            <div class="file-icon db" style="background: rgba(150,100,220,0.25); color: #c8a0f8;">SQL</div>
+            <div>
+              <div class="file-name">queries.txt</div>
+              <div class="file-desc">52 SQLite queries — CASE WHEN, CTEs, HAVING, window functions</div>
             </div>
           </div>
           <span class="file-arrow">→</span>
@@ -774,6 +784,85 @@
       <a href="https://github.com/thierryujeneza/Call-Center-KPI-analysis" target="_blank" class="btn btn-outline" style="margin-top: 1.5rem; border-color: rgba(255,255,255,0.15); color: #c8c4be;">
         View full repository ↗
       </a>
+    </div>
+  </div>
+</section>
+
+<!-- ATTRITION PROJECT -->
+<section style="padding: 6rem 5rem; background: var(--paper-2);">
+  <div class="section-label">Project 02</div>
+  <h2 class="section-title">HR Attrition Analysis</h2>
+
+  <div class="project-grid" style="grid-template-columns: 1fr 1fr; display: grid; gap: 3rem; align-items: start;">
+    <div>
+      <!-- Dashboard screenshot -->
+      <div style="position: relative; border: 1px solid var(--paper-3); overflow: hidden; border-radius: 2px;">
+        <img src="attrition-dashboard.png" alt="Attrition Power BI Dashboard" style="width: 100%; display: block;" onerror="this.parentElement.style.display='none'; document.getElementById('att-fallback').style.display='flex';">
+        <div style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; font-family: 'DM Mono', monospace; font-size: 10px; padding: 4px 8px; border-radius: 2px; letter-spacing: 0.06em;">Power BI</div>
+      </div>
+      <div id="att-fallback" style="display: none; background: #1a1a1a; height: 220px; align-items: center; justify-content: center; border-radius: 2px; border: 1px solid var(--paper-3);">
+        <span style="font-family: 'DM Mono', monospace; font-size: 11px; color: #5a5652; letter-spacing: 0.06em;">Dashboard screenshot coming soon</span>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <div style="border-left: 2px solid var(--accent); padding-left: 1.25rem;">
+        <p style="font-size: 1rem; font-weight: 300; color: var(--ink-2); line-height: 1.75;">
+          <strong style="color: var(--accent); font-weight: 500;">Key finding:</strong> R&D experienced the highest attrition volume at 282 employees, while the overall attrition rate stood at 17% across 2,925 total employees — with male attrition (63%) significantly outpacing female (37%).
+        </p>
+      </div>
+
+      <div>
+        <p style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px;">Measures built</p>
+        <div class="tools-list" style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; padding: 5px 10px; background: var(--paper-3); border: 1px solid var(--paper-3); color: var(--ink-3); border-radius: 2px;">% Attrition</span>
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; padding: 5px 10px; background: var(--paper-3); border: 1px solid var(--paper-3); color: var(--ink-3); border-radius: 2px;">% Female Attrition</span>
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; padding: 5px 10px; background: var(--paper-3); border: 1px solid var(--paper-3); color: var(--ink-3); border-radius: 2px;">% Male Attrition</span>
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; padding: 5px 10px; background: var(--paper-3); border: 1px solid var(--paper-3); color: var(--ink-3); border-radius: 2px;">Total Attrition</span>
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; padding: 5px 10px; background: var(--paper-3); border: 1px solid var(--paper-3); color: var(--ink-3); border-radius: 2px;">Total Employees</span>
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; padding: 5px 10px; background: var(--paper-3); border: 1px solid var(--paper-3); color: var(--ink-3); border-radius: 2px;">CF_age band</span>
+          <span style="font-family: 'DM Mono', monospace; font-size: 11px; padding: 5px 10px; background: var(--paper-3); border: 1px solid var(--paper-3); color: var(--ink-3); border-radius: 2px;">CF_attrition label</span>
+        </div>
+      </div>
+
+      <div>
+        <p style="font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px;">Visuals built</p>
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; gap: 10px; align-items: flex-start;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); padding-top: 2px; flex-shrink:0;">→</span>
+            <span style="font-size: 13px; color: var(--ink-2);">Attrition by work distance — bar chart (age bands 0–10, 11–20, 21–30, 30+)</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: flex-start;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); padding-top: 2px; flex-shrink:0;">→</span>
+            <span style="font-size: 13px; color: var(--ink-2);">Attrition by job satisfaction — bar chart across 4 satisfaction levels</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: flex-start;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); padding-top: 2px; flex-shrink:0;">→</span>
+            <span style="font-size: 13px; color: var(--ink-2);">Attrition by department — donut cards for R&D, HR, Sales</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: flex-start;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); padding-top: 2px; flex-shrink:0;">→</span>
+            <span style="font-size: 13px; color: var(--ink-2);">Gender attrition split — donut charts (Female 37% / Male 63%)</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: flex-start;">
+            <span style="font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); padding-top: 2px; flex-shrink:0;">→</span>
+            <span style="font-size: 13px; color: var(--ink-2);">Distance to work — donut breakdown (Near/Far/Very Far)</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem;">
+        <div class="file-link" style="opacity: 0.5; cursor: not-allowed; flex: 1; min-width: 200px;">
+          <div class="file-link-left">
+            <div class="file-icon pbix">PBIX</div>
+            <div>
+              <div class="file-name">attrition_power_bi.pbix</div>
+              <div class="file-desc">Preview unavailable — requires org licence</div>
+            </div>
+          </div>
+          <span style="font-size:12px; color:#5a5652;">🔒</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
