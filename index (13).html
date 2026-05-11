@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thierry Ujeneza — Data Analyst Portfolio</title>
+<meta name="description" content="Data Analyst portfolio of Thierry Ujeneza — SQL, Python, Power BI, Excel.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%23c94f28'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-size='14' font-weight='bold' fill='white'>TU</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================ RESET */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0f0e0d;--ink-2:#3a3835;--ink-3:#7a7672;
+  --paper:#f5f2ee;--paper-2:#ece8e2;--paper-3:#e2ddd6;
+  --accent:#c94f28;--accent-2:#e8b89a;--accent-pale:#faf0eb;
+  --mono:'DM Mono',monospace;--serif:'DM Serif Display',serif;--sans:'Outfit',sans-serif;
+  --radius:3px;--shadow:0 4px 24px rgba(15,14,13,0.08);--shadow-lg:0 8px 40px rgba(15,14,13,0.14);--t:0.25s ease;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:16px;line-height:1.6;overflow-x:hidden;}
+img{display:block;max-width:100%;}
+
+/* ============================================================ UTILITIES */
+.label{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;}
+.section-label{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
+.section-label::after{content:'';display:block;flex:1;max-width:40px;height:1px;background:var(--accent);}
+.section-title{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);line-height:1.1;margin-bottom:3rem;color:var(--ink);}
+.section-title--light{color:var(--paper);}
+.subsection-label{font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#7a7672;margin-bottom:14px;}
+.subsection-label--light{color:#5a5652;}
+.desktop-only-img{display:block;}
+.mobile-only-img{display:none;}
+
+/* ============================================================ ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{opacity:0;transform:translateY(24px);animation:fadeUp 0.7s ease forwards;}
+.fade-up:nth-child(1){animation-delay:0.1s;}
+.fade-up:nth-child(2){animation-delay:0.2s;}
+.fade-up:nth-child(3){animation-delay:0.35s;}
+.fade-up:nth-child(4){animation-delay:0.5s;}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ============================================================ NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(245,242,238,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--paper-3);transition:box-shadow var(--t);}
+nav.scrolled{box-shadow:0 2px 20px rgba(15,14,13,0.08);}
+.nav-brand{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--ink-2);letter-spacing:0.04em;text-decoration:none;transition:color var(--t);}
+.nav-brand:hover{color:var(--accent);}
+.nav-right{display:flex;align-items:center;gap:2rem;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-size:13px;color:var(--ink-3);text-decoration:none;letter-spacing:0.02em;transition:color var(--t);position:relative;padding-bottom:2px;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--accent);transition:width var(--t);}
+.nav-links a:hover,.nav-links a.active{color:var(--accent);}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%;}
+.nav-cv{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:6px 14px;border-radius:var(--radius);text-decoration:none;transition:all var(--t);}
+.nav-cv:hover{background:var(--accent);color:#fff;}
+
+/* ============================================================ BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:0.75rem 1.6rem;font-family:var(--sans);font-size:14px;font-weight:500;text-decoration:none;border-radius:var(--radius);transition:all var(--t);cursor:pointer;border:none;white-space:nowrap;}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 2px 12px rgba(201,79,40,0.25);}
+.btn-primary:hover{background:#a83d1f;transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,79,40,0.35);}
+.btn-outline{background:transparent;color:var(--ink-2);border:1px solid var(--paper-3);}
+.btn-outline:hover{border-color:var(--ink-3);transform:translateY(-2px);box-shadow:var(--shadow);}
+.btn-outline--light{color:#c8c4be;border-color:rgba(255,255,255,0.18);}
+.btn-outline--light:hover{border-color:var(--accent-2);color:var(--accent-2);box-shadow:none;}
+
+/* ============================================================ HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:72px;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:5rem 3rem 5rem 5rem;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:500;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1.5rem;}
+.hero-tag::before{content:'';display:block;width:20px;height:1px;background:var(--accent);}
+.hero-name{font-family:var(--serif);font-size:clamp(3.5rem,6vw,5.5rem);line-height:1.05;color:var(--ink);margin-bottom:1.5rem;letter-spacing:-0.01em;}
+.hero-name em{font-style:italic;color:var(--accent);}
+.hero-desc{font-size:1.05rem;font-weight:300;color:var(--ink-2);max-width:420px;margin-bottom:2.5rem;line-height:1.75;}
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap;}
+.hero-right{background:var(--paper-2);display:flex;align-items:center;justify-content:center;padding:5rem 3rem;position:relative;overflow:hidden;}
+.hero-right::before{content:'DATA';position:absolute;font-family:var(--serif);font-size:18vw;color:rgba(201,79,40,0.05);font-style:italic;white-space:nowrap;pointer-events:none;user-select:none;}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--paper-3);border:1px solid var(--paper-3);position:relative;z-index:1;width:100%;max-width:380px;}
+.stat-box{background:var(--paper-2);padding:2rem 1.5rem;display:flex;flex-direction:column;gap:6px;transition:background var(--t);}
+.stat-box:hover{background:var(--paper);}
+.stat-number{font-family:var(--serif);font-size:2.8rem;color:var(--ink);line-height:1;}
+.stat-number span{color:var(--accent);}
+.stat-label{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:0.08em;text-transform:uppercase;}
+
+/* ============================================================ PROJECT (dark) */
+#project{background:var(--ink);color:var(--paper);padding:6rem 5rem;}
+#project .section-label{color:var(--accent-2);}
+#project .section-label::after{background:var(--accent-2);}
+.project-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+.project-meta{display:flex;flex-direction:column;gap:1.5rem;}
+.project-finding{border-left:2px solid var(--accent);padding-left:1.25rem;}
+.project-finding p{font-size:1.05rem;font-weight:300;color:#d0ccc6;line-height:1.8;}
+.project-finding strong{color:var(--accent-2);font-weight:500;}
+.tools-list{display:flex;flex-wrap:wrap;gap:8px;}
+.tool-tag{font-family:var(--mono);font-size:11px;padding:5px 10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#b8b4ae;border-radius:var(--radius);letter-spacing:0.04em;transition:all var(--t);}
+.tool-tag:hover{background:rgba(255,255,255,0.1);color:#e8e4de;}
+.project-links{display:flex;flex-direction:column;gap:10px;}
+.file-link{display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1.25rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:var(--radius);text-decoration:none;transition:all var(--t);}
+.file-link:hover{background:rgba(201,79,40,0.1);border-color:rgba(201,79,40,0.28);transform:translateX(4px);}
+.file-link.disabled{opacity:0.4;cursor:not-allowed;pointer-events:none;}
+.file-link-left{display:flex;align-items:center;gap:12px;}
+.file-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:0.04em;border-radius:var(--radius);flex-shrink:0;}
+.file-icon.xlsx{background:rgba(26,107,90,0.25);color:#5acdb8;}
+.file-icon.db{background:rgba(55,138,221,0.25);color:#7ab8f0;}
+.file-icon.py{background:rgba(239,159,39,0.25);color:#f5c478;}
+.file-icon.pbix{background:rgba(243,195,71,0.25);color:#f0d070;}
+.file-icon.sql{background:rgba(150,100,220,0.25);color:#c8a0f8;}
+.file-name{font-family:var(--mono);font-size:12px;color:#d8d4ce;}
+.file-desc{font-size:12px;color:#6a6662;margin-top:2px;}
+.file-arrow{color:#4a4844;font-size:16px;transition:color var(--t);}
+.file-link:hover .file-arrow{color:var(--accent-2);}
+
+/* Preview images */
+.preview-img-wrap{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid rgba(255,255,255,0.06);}
+.preview-img-wrap img{width:100%;height:200px;object-fit:cover;object-position:top;transition:transform 0.4s ease;}
+.preview-img-wrap:hover img{transform:scale(1.02);}
+.preview-caption{position:absolute;bottom:0;left:0;right:0;padding:6px 10px;background:linear-gradient(transparent,rgba(0,0,0,0.75));font-family:var(--mono);font-size:10px;color:#fff;letter-spacing:0.06em;}
+.preview-badge{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.65);color:#fff;font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:var(--radius);letter-spacing:0.06em;}
+
+/* Snippet grids */
+.snippet-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.snippet-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.snippet-card{border-radius:var(--radius);overflow:hidden;border:1px solid rgba(255,255,255,0.07);transition:transform var(--t),box-shadow var(--t);}
+.snippet-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,0.4);}
+.snippet-card img{width:100%;height:auto;display:block;}
+.snippet-card img.fh{height:120px;object-fit:cover;object-position:top;}
+.snippet-caption{background:rgba(0,0,0,0.72);padding:8px 10px;}
+.snippet-caption-label{font-family:var(--mono);font-size:10px;letter-spacing:0.06em;margin-bottom:2px;}
+.snippet-caption-label.sql{color:#c8a0f8;}
+.snippet-caption-label.py{color:#f5c478;}
+.snippet-caption-label.chart{color:var(--accent-2);}
+.snippet-caption p{font-size:11px;color:#9a9690;}
+
+/* ============================================================ ATTRITION */
+#attrition{background:var(--paper-2);padding:6rem 5rem;}
+.attrition-finding{border-left:2px solid var(--accent);padding-left:1.25rem;}
+.attrition-finding p{font-size:1rem;font-weight:300;color:var(--ink-2);line-height:1.8;}
+.light-pill{font-family:var(--mono);font-size:11px;padding:5px 10px;background:var(--paper-3);border:1px solid var(--paper-3);color:var(--ink-3);border-radius:var(--radius);transition:all var(--t);}
+.light-pill:hover{background:var(--paper);border-color:var(--ink-3);color:var(--ink-2);}
+.visual-list{display:flex;flex-direction:column;gap:7px;}
+.visual-item{display:flex;gap:10px;align-items:flex-start;}
+.visual-arrow{font-family:var(--mono);font-size:10px;color:var(--accent);padding-top:2px;flex-shrink:0;}
+.visual-text{font-size:13px;color:var(--ink-2);}
+.attrition-img-wrap{position:relative;border:1px solid var(--paper-3);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:box-shadow var(--t),transform var(--t);}
+.attrition-img-wrap:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px);}
+.attrition-img-wrap img{width:100%;height:auto;}
+
+/* ============================================================ SKILLS */
+#skills{padding:6rem 5rem;}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--paper-3);border:1px solid var(--paper-3);}
+.skill-card{background:var(--paper-2);padding:2rem 1.75rem;transition:background var(--t);}
+.skill-card:hover{background:var(--paper);}
+.skill-icon{width:40px;height:40px;background:var(--accent-pale);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;transition:background var(--t);}
+.skill-card:hover .skill-icon{background:#f5e8e2;}
+.skill-icon svg{width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:1.5;}
+.skill-name{font-family:var(--serif);font-size:1.25rem;color:var(--ink);margin-bottom:0.5rem;}
+.skill-desc{font-size:13px;color:var(--ink-3);line-height:1.65;}
+.skill-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:1rem;}
+.pill{font-family:var(--mono);font-size:10px;padding:3px 8px;background:var(--paper-3);color:var(--ink-3);border-radius:var(--radius);letter-spacing:0.04em;}
+
+/* ============================================================ ABOUT */
+#about{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;padding:6rem 5rem;}
+.about-text p{font-size:1rem;font-weight:300;color:var(--ink-2);line-height:1.8;margin-bottom:1rem;}
+.about-visual{background:var(--paper-2);border:1px solid var(--paper-3);padding:2.5rem;display:flex;flex-direction:column;gap:1.5rem;}
+.process-step{display:flex;align-items:flex-start;gap:1rem;}
+.step-num{font-family:var(--mono);font-size:11px;color:var(--accent);font-weight:500;padding-top:2px;flex-shrink:0;letter-spacing:0.04em;}
+.step-text strong{display:block;font-size:14px;font-weight:500;color:var(--ink);margin-bottom:2px;}
+.step-text span{font-size:12px;color:var(--ink-3);}
+
+/* ============================================================ CONTACT */
+#contact{background:var(--ink);color:var(--paper);text-align:center;padding:6rem 5rem;}
+#contact .section-label{color:var(--accent-2);justify-content:center;}
+#contact .section-label::before{content:'';display:block;width:40px;height:1px;background:var(--accent-2);}
+#contact .section-label::after{display:none;}
+.contact-desc{font-size:1rem;font-weight:300;color:#9a9690;max-width:500px;margin:0 auto 2.5rem;line-height:1.8;}
+.contact-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+
+/* ============================================================ FOOTER */
+footer{background:var(--ink);border-top:1px solid rgba(255,255,255,0.05);padding:1.5rem 5rem;display:flex;align-items:center;justify-content:space-between;}
+footer p{font-family:var(--mono);font-size:11px;color:#3a3835;letter-spacing:0.04em;}
+
+/* Separator */
+.sep{height:1px;background:linear-gradient(to right,transparent,var(--paper-3),transparent);margin:0 5rem;}
+
+/* ============================================================ RESPONSIVE */
+@media(max-width:1024px){
+  #project,#attrition,#skills,#contact{padding:5rem 3rem;}
+  #about{padding:5rem 3rem;gap:3rem;}
+  .sep{margin:0 3rem;}
+  footer{padding:1.5rem 3rem;}
+  .snippet-grid-3{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links,.nav-cv{display:none;}
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-left{padding:5rem 1.5rem 3rem;}
+  .hero-right{padding:3rem 1.5rem;min-height:280px;}
+  section{padding:4rem 1.5rem;}
+  #project,#attrition,#skills,#contact{padding:4rem 1.5rem;}
+  #about{grid-template-columns:1fr;padding:4rem 1.5rem;gap:2.5rem;}
+  footer{padding:1.5rem;flex-direction:column;gap:0.5rem;text-align:center;}
+  .sep{margin:0 1.5rem;}
+  .project-grid{grid-template-columns:1fr;}
+  .skills-grid{grid-template-columns:1fr;}
+  .snippet-grid-2,.snippet-grid-3{grid-template-columns:1fr;}
+  .desktop-only-img{display:none!important;}
+  .mobile-only-img{display:block!important;}
+  .project-grid>div{order:unset!important;}
+}
+@media(max-width:480px){
+  .hero-cta,.contact-links{flex-direction:column;align-items:flex-start;}
+  .contact-links{align-items:center;}
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+  <a href="#" class="nav-brand">thierry.ujeneza</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#project">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cv">Hire Me</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0;" aria-label="Introduction">
+  <div class="hero-left">
+    <div class="hero-tag fade-up">Data Analyst</div>
+    <h1 class="hero-name fade-up">Thierry<br><em>Ujeneza</em></h1>
+    <p class="hero-desc fade-up">Turning raw operational data into decisions that matter — through SQL, Python, Excel, and Power BI.</p>
+    <div class="hero-cta fade-up">
+      <a href="#project" class="btn btn-primary">View Projects</a>
+      <a href="https://github.com/thierryujeneza" target="_blank" rel="noopener" class="btn btn-outline">GitHub ↗</a>
+      <a href="https://linkedin.com/in/thierryujeneza" target="_blank" rel="noopener" class="btn btn-outline">LinkedIn ↗</a>
+    </div>
+  </div>
+  <div class="hero-right" aria-hidden="true">
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-number">294<span>+</span></div><div class="stat-label">Interactions Analysed</div></div>
+      <div class="stat-box"><div class="stat-number">15<span>+</span></div><div class="stat-label">DAX Measures</div></div>
+      <div class="stat-box"><div class="stat-number">12</div><div class="stat-label">SQL Queries</div></div>
+      <div class="stat-box"><div class="stat-number">4</div><div class="stat-label">Analytics Stack</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT 01 -->
+<section id="project" aria-labelledby="p1-title">
+  <div class="section-label">Featured Project — 01</div>
+  <h2 class="section-title section-title--light" id="p1-title">Call Center KPI Analysis</h2>
+  <div class="project-grid">
+    <div class="project-meta">
+      <div class="project-finding">
+        <p><strong>Key finding:</strong> Extended calls consistently produced lower CSAT scores — overall FCR of 74.49%, average CSAT of 3.90, and average handle time of 7.5 min across 294 cases. Henry Bizimana led all agents at 85.71% FCR. Validated independently across SQL, Python, and Power BI.</p>
+      </div>
+      <div>
+        <p class="subsection-label subsection-label--light">Tools used</p>
+        <div class="tools-list">
+          <span class="tool-tag">Microsoft Excel</span><span class="tool-tag">SQLite</span><span class="tool-tag">DB Browser</span><span class="tool-tag">Python 3</span><span class="tool-tag">pandas</span><span class="tool-tag">seaborn</span><span class="tool-tag">matplotlib</span><span class="tool-tag">openpyxl</span><span class="tool-tag">Power BI Desktop</span>
+        </div>
+      </div>
+      <div>
+        <p class="subsection-label subsection-label--light">What was done</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span style="font-family:var(--mono);font-size:10px;color:var(--accent-2);padding-top:3px;flex-shrink:0;">01</span><span style="font-size:13px;color:#9a9690;">Excel — PROPER() name standardisation, IFERROR mean imputation, COUNTIF duplicate detection</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span style="font-family:var(--mono);font-size:10px;color:var(--accent-2);padding-top:3px;flex-shrink:0;">02</span><span style="font-size:13px;color:#9a9690;">SQL — 52 queries using RANK(), HAVING, CTEs, subqueries, CREATE VIEW for reusable reporting</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span style="font-family:var(--mono);font-size:10px;color:var(--accent-2);padding-top:3px;flex-shrink:0;">03</span><span style="font-size:13px;color:#9a9690;">Python — pandas groupby aggregations, seaborn visualisations, correlation matrix confirming findings</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span style="font-family:var(--mono);font-size:10px;color:var(--accent-2);padding-top:3px;flex-shrink:0;">04</span><span style="font-size:13px;color:#9a9690;">Power BI — 15+ DAX measures, slicers, dual-axis trend chart for executive dashboard</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="subsection-label subsection-label--light">Dashboard previews</p>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:2rem;">
+        <div class="preview-img-wrap desktop-only-img">
+          <img src="operational%20over%20view.png" alt="Call Center Operational Overview — 294 cases, 74.49% FCR, 3.90 CSAT" loading="lazy">
+          <div class="preview-caption">Operational Overview</div>
+        </div>
+        <div class="preview-img-wrap desktop-only-img">
+          <img src="callcenter%20agents.png" alt="Agent Deep Dive — individual agent performance metrics" loading="lazy">
+          <div class="preview-caption">Agent Deep Dive</div>
+        </div>
+      </div>
+
+      <p class="subsection-label subsection-label--light">SQL in action</p>
+      <div class="snippet-grid-2" style="margin-bottom:1.5rem;">
+        <div class="snippet-card">
+          <img src="charts/Query%206.png" alt="CTE Monthly Trend query with 12 months of results" loading="lazy">
+          <div class="snippet-caption"><p class="snippet-caption-label sql">QUERY 6 — CTE</p><p>Monthly trend — cases, FCR and CSAT over 12 months</p></div>
+        </div>
+        <div class="snippet-card">
+          <img src="charts/Query%207.png" alt="CASE WHEN handle time bucketing — 300 rows returned" loading="lazy">
+          <div class="snippet-caption"><p class="snippet-caption-label sql">QUERY 7 — CASE WHEN</p><p>Handle time bucketing — 300 rows categorised by call duration</p></div>
+        </div>
+      </div>
+
+      <p class="subsection-label subsection-label--light">Python code</p>
+      <div class="snippet-grid-2" style="margin-bottom:1.5rem;">
+        <div class="snippet-card">
+          <img src="charts/python.png" alt="Python data cleaning — imports, column standardisation, imputation" loading="lazy">
+          <div class="snippet-caption"><p class="snippet-caption-label py">DATA CLEANING</p><p>Imports, standardisation, missing value imputation</p></div>
+        </div>
+        <div class="snippet-card">
+          <img src="charts/python%202.png" alt="Python aggregations — groupby, FCR rate, seaborn barplot" loading="lazy">
+          <div class="snippet-caption"><p class="snippet-caption-label py">AGGREGATIONS & VISUALS</p><p>groupby, FCR rate calc, seaborn barplot</p></div>
+        </div>
+      </div>
+
+      <p class="subsection-label subsection-label--light">Python visualisations</p>
+      <div class="snippet-grid-3" style="margin-bottom:2rem;">
+        <div class="snippet-card"><img class="fh" src="charts/scatter_ht_csat_aesthetic.png" alt="Scatter plot — handle time vs CSAT score negative correlation" loading="lazy"><div class="snippet-caption"><p class="snippet-caption-label chart">Handle Time vs CSAT</p></div></div>
+        <div class="snippet-card"><img class="fh" src="charts/fcr_aesthetic_chart.png" alt="FCR rate by team — Beta 77.7%, Alpha 74.7%, Gamma 72.3%" loading="lazy"><div class="snippet-caption"><p class="snippet-caption-label chart">FCR Rate by Team</p></div></div>
+        <div class="snippet-card"><img class="fh" src="charts/correlation_heatmap.png" alt="Correlation matrix heatmap of call center KPIs" loading="lazy"><div class="snippet-caption"><p class="snippet-caption-label chart">Correlation Matrix</p></div></div>
+      </div>
+
+      <p class="subsection-label subsection-label--light">Project files</p>
+      <div class="project-links">
+        <a class="file-link" href="https://github.com/thierryujeneza/Call-Center-KPI-analysis/blob/main/Call%20center%20data%20analysis.xlsx" target="_blank" rel="noopener"><div class="file-link-left"><div class="file-icon xlsx">XLSX</div><div><div class="file-name">Call center data analysis.xlsx</div><div class="file-desc">Cleaned dataset with KPI formulas</div></div></div><span class="file-arrow">→</span></a>
+        <a class="file-link" href="https://github.com/thierryujeneza/Call-Center-KPI-analysis/blob/main/Call%20center.db" target="_blank" rel="noopener"><div class="file-link-left"><div class="file-icon db">DB</div><div><div class="file-name">Call center.db</div><div class="file-desc">SQLite database — 12 analytical queries</div></div></div><span class="file-arrow">→</span></a>
+        <a class="file-link" href="https://github.com/thierryujeneza/Call-Center-KPI-analysis/blob/main/queries.txt" target="_blank" rel="noopener"><div class="file-link-left"><div class="file-icon sql">SQL</div><div><div class="file-name">queries.txt</div><div class="file-desc">52 SQLite queries — CTEs, CASE WHEN, HAVING, window functions</div></div></div><span class="file-arrow">→</span></a>
+        <a class="file-link" href="https://github.com/thierryujeneza/Call-Center-KPI-analysis/blob/main/analysis.py" target="_blank" rel="noopener"><div class="file-link-left"><div class="file-icon py">PY</div><div><div class="file-name">analysis.py</div><div class="file-desc">pandas groupby, seaborn visuals, correlation matrix, openpyxl export</div></div></div><span class="file-arrow">→</span></a>
+        <a class="file-link" href="https://github.com/thierryujeneza/Call-Center-KPI-analysis/blob/main/CCI_Python_Analysis.xlsx" target="_blank" rel="noopener"><div class="file-link-left"><div class="file-icon xlsx">XLSX</div><div><div class="file-name">CCI_Python_Analysis.xlsx</div><div class="file-desc">Multi-sheet Python export via openpyxl</div></div></div><span class="file-arrow">→</span></a>
+        <div class="file-link disabled"><div class="file-link-left"><div class="file-icon pbix">PBIX</div><div><div class="file-name">Metric Dashboard.pbix</div><div class="file-desc">Requires Power BI Desktop to open</div></div></div><span style="font-size:12px;">🔒</span></div>
+      </div>
+      <a href="https://github.com/thierryujeneza/Call-Center-KPI-analysis" target="_blank" rel="noopener" class="btn btn-outline btn-outline--light" style="margin-top:1.5rem;">View full repository ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT 02 -->
+<section id="attrition" aria-labelledby="p2-title">
+  <div class="section-label">Project — 02</div>
+  <h2 class="section-title" id="p2-title">HR Attrition Analysis</h2>
+  <div class="project-grid">
+    <div style="order:2;">
+      <div class="attrition-img-wrap desktop-only-img">
+        <img src="attrition%20dashboard.png" alt="HR Attrition dashboard — 2925 employees, 17% attrition, breakdown by department gender and distance" loading="lazy">
+        <div class="preview-badge">Power BI</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1.5rem;order:1;">
+      <div class="attrition-img-wrap mobile-only-img">
+        <img src="attrition%20dashboard.png" alt="HR Attrition Power BI dashboard" loading="lazy">
+        <div class="preview-badge">Power BI</div>
+      </div>
+      <div class="attrition-finding">
+        <p><strong style="color:var(--accent);font-weight:500;">Key finding:</strong> R&D experienced the highest attrition volume at 282 employees, while the overall rate stood at 17% across 2,925 total employees — with male attrition (63%) significantly outpacing female (37%).</p>
+      </div>
+      <div>
+        <p class="subsection-label" style="color:var(--ink-3);">Measures built</p>
+        <div class="tools-list"><span class="light-pill">% Attrition</span><span class="light-pill">% Female Attrition</span><span class="light-pill">% Male Attrition</span><span class="light-pill">Total Attrition</span><span class="light-pill">Total Employees</span><span class="light-pill">CF_age band</span><span class="light-pill">CF_attrition label</span></div>
+      </div>
+      <div>
+        <p class="subsection-label" style="color:var(--ink-3);">Visuals built</p>
+        <div class="visual-list">
+          <div class="visual-item"><span class="visual-arrow">→</span><span class="visual-text">Attrition by working distance — bar chart (age bands 0–10, 11–20, 21–30, 30+)</span></div>
+          <div class="visual-item"><span class="visual-arrow">→</span><span class="visual-text">Attrition by job satisfaction — bar chart across 4 satisfaction levels</span></div>
+          <div class="visual-item"><span class="visual-arrow">→</span><span class="visual-text">Attrition by department — donut cards for R&D (282), HR (24), Sales (186)</span></div>
+          <div class="visual-item"><span class="visual-arrow">→</span><span class="visual-text">Gender attrition split — donut charts (Female 37% / Male 63%)</span></div>
+          <div class="visual-item"><span class="visual-arrow">→</span><span class="visual-text">Distance to work — donut breakdown (Near / Far / Very Far)</span></div>
+        </div>
+      </div>
+      <div class="file-link disabled"><div class="file-link-left"><div class="file-icon pbix">PBIX</div><div><div class="file-name" style="color:var(--ink-3);">attrition_power_bi.pbix</div><div class="file-desc">Requires Power BI Desktop to open</div></div></div><span style="font-size:12px;">🔒</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- SKILLS -->
+<section id="skills" aria-labelledby="skills-title">
+  <div class="section-label">Capabilities</div>
+  <h2 class="section-title" id="skills-title">What I work with</h2>
+  <div class="skills-grid">
+    <div class="skill-card reveal"><div class="skill-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg></div><div class="skill-name">Excel</div><div class="skill-desc">Data cleaning, transformation, and KPI formula engineering on raw operational datasets.</div><div class="skill-pills"><span class="pill">COUNTIF</span><span class="pill">IFERROR</span><span class="pill">PROPER</span><span class="pill">Pivot Tables</span></div></div>
+    <div class="skill-card reveal"><div class="skill-icon"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v4c0 1.657 3.582 3 8 3s8-1.343 8-3V6"/><path d="M4 10v4c0 1.657 3.582 3 8 3s8-1.343 8-3v-4"/><path d="M4 14v4c0 1.657 3.582 3 8 3s8-1.343 8-3v-4"/></svg></div><div class="skill-name">SQL</div><div class="skill-desc">Multi-query analysis using window functions, CTEs, subqueries, and reusable views in SQLite.</div><div class="skill-pills"><span class="pill">RANK()</span><span class="pill">HAVING</span><span class="pill">CTEs</span><span class="pill">JOIN</span><span class="pill">CREATE VIEW</span></div></div>
+    <div class="skill-card reveal"><div class="skill-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div><div class="skill-name">Python</div><div class="skill-desc">Automation, groupby aggregations, seaborn visualisations, and multi-sheet Excel exports.</div><div class="skill-pills"><span class="pill">pandas</span><span class="pill">seaborn</span><span class="pill">matplotlib</span><span class="pill">openpyxl</span></div></div>
+    <div class="skill-card reveal"><div class="skill-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M6 8h.01M10 8h4M18 8h.01M6 12h12"/></svg></div><div class="skill-name">Power BI</div><div class="skill-desc">Interactive dashboards with slicers, dual-axis charts, and 15+ DAX measures for executive reporting.</div><div class="skill-pills"><span class="pill">CALCULATE</span><span class="pill">DIVIDE</span><span class="pill">RANKX</span><span class="pill">TOTALYTD</span></div></div>
+    <div class="skill-card reveal"><div class="skill-icon"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 4-8"/></svg></div><div class="skill-name">Data Analysis</div><div class="skill-desc">Statistical validation, correlation analysis, and cross-tool result verification for reliable findings.</div><div class="skill-pills"><span class="pill">Correlation</span><span class="pill">KPI Design</span><span class="pill">EDA</span></div></div>
+    <div class="skill-card reveal"><div class="skill-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a4.5 4.5 0 0 0 0 9 4.5 4.5 0 0 0 0-9"/><path d="M3 12h18"/></svg></div><div class="skill-name">Storytelling</div><div class="skill-desc">Translating analytical findings into clear, actionable narratives for both technical and business audiences.</div><div class="skill-pills"><span class="pill">Documentation</span><span class="pill">Reporting</span><span class="pill">Dashboards</span></div></div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ABOUT -->
+<section id="about" aria-labelledby="about-title">
+  <div>
+    <div class="section-label">About</div>
+    <h2 class="section-title" id="about-title">Analyst by craft,<br>builder by nature</h2>
+    <div class="about-text">
+      <p>I'm a data analyst with a focus on operational and customer experience datasets. I work end-to-end — from raw data wrangling in Excel and SQL, through Python automation, to interactive Power BI dashboards built for decision-makers.</p>
+      <p>Currently studying a Bachelor of Honours in Business and Information Technology at the University of Kigali, building the foundation to connect business thinking with technical execution.</p>
+      <p>I care about rigour: every finding in my work is cross-validated across tools before it's called a result.</p>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem;">
+      <a href="https://github.com/thierryujeneza" target="_blank" rel="noopener" class="btn btn-outline">GitHub ↗</a>
+      <a href="https://linkedin.com/in/thierryujeneza" target="_blank" rel="noopener" class="btn btn-outline">LinkedIn ↗</a>
+    </div>
+  </div>
+  <div class="about-visual">
+    <p class="label" style="color:var(--ink-3);margin-bottom:0.5rem;">My process</p>
+    <div class="process-step"><span class="step-num">01 —</span><div class="step-text"><strong>Understand the data</strong><span>Profile structure, spot anomalies, define what clean looks like</span></div></div>
+    <div class="process-step"><span class="step-num">02 —</span><div class="step-text"><strong>Clean with intention</strong><span>Standardise, impute, flag — every decision documented</span></div></div>
+    <div class="process-step"><span class="step-num">03 —</span><div class="step-text"><strong>Query with precision</strong><span>SQL first — then validate with Python for cross-tool confidence</span></div></div>
+    <div class="process-step"><span class="step-num">04 —</span><div class="step-text"><strong>Visualise for the audience</strong><span>Python for exploration, Power BI for stakeholder presentation</span></div></div>
+    <div class="process-step"><span class="step-num">05 —</span><div class="step-text"><strong>State the finding clearly</strong><span>One sentence. What it means. What to do about it.</span></div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" aria-labelledby="contact-title">
+  <div class="section-label">Contact</div>
+  <h2 class="section-title section-title--light" id="contact-title">Let's connect</h2>
+  <p class="contact-desc">Open to data analyst roles, freelance projects, and collaborations. Reach out via email, LinkedIn, or phone.</p>
+  <div class="contact-links">
+    <a href="mailto:thierry.ujeneza@ccirwanda.com" class="btn btn-primary">Send email</a>
+    <a href="https://linkedin.com/in/thierryujeneza" target="_blank" rel="noopener" class="btn btn-outline btn-outline--light">LinkedIn ↗</a>
+    <a href="https://github.com/thierryujeneza" target="_blank" rel="noopener" class="btn btn-outline btn-outline--light">GitHub ↗</a>
+    <a href="tel:+250791803859" class="btn btn-outline btn-outline--light">+250 791 803 859</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Thierry Ujeneza</p>
+  <p>Built with GitHub Pages</p>
+</footer>
+
+<script>
+  // Navbar scroll shadow
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20), {passive:true});
+
+  // Active nav highlighting
+  const secs = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.nav-links a');
+  new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting) links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+e.target.id));
+    });
+  }, {rootMargin:'-40% 0px -55% 0px'}).observe(document.querySelectorAll('section[id]')[0]);
+  secs.forEach(s => new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) links.forEach(l => l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id)); });
+  }, {rootMargin:'-40% 0px -55% 0px'}).observe(s));
+
+  // Scroll reveal
+  new IntersectionObserver((entries, obs) => {
+    entries.forEach((e,i) => {
+      if(e.isIntersecting){ setTimeout(() => e.target.classList.add('visible'), i*80); obs.unobserve(e.target); }
+    });
+  }, {threshold:0.12}).observe !== undefined &&
+  (() => {
+    const ro = new IntersectionObserver((entries, obs) => {
+      entries.forEach((e,i) => { if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*80); obs.unobserve(e.target); } });
+    }, {threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+  })();
+</script>
+</body>
+</html>
